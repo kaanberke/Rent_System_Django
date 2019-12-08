@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>test</title>
+        <style>
+
+            body{
+                margin: auto;
+                width: 50%;
+            }
+            img{
+                display: flex;
+                width: 150px;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <h1>HAHA</h1>
+        <div id="container"></div>
+        <h1>HAHA</h1>
+        <button onclick="refresh('products')">Let's have a button like this.</button>
+
+    </body>
+    <script>
+        function httpGet(theUrl)
+        {
+            let getUrl = window.location;
+            let baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + theUrl;
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+            xmlHttp.send( null );
+            let response = JSON.parse(xmlHttp.responseText);
+            return response;
+        }
+
+        function refresh(url){
+            url = url instanceof String ? url : "products"
+            let response = httpGet(url)
+            let element = document.getElementById("container")
+
+            let string = "<h3>"
+            for (var i = 0; i < response.length; i++){
+                let genres = []
+                for (var j = 0; j < response[i].genre.length; j++){
+                    genres.push(response[i].genre[j])
+                }
+                string += response[i].id + ") " +
+                          response[i].name + " " +
+                          "<img src='" + response[i].image + "'/>" +
+                          response[i].category + "<br>" +
+                          genres.join("<br>") + "<hr>"
+            }
+            element.innerHTML = string + "</h3>"
+        }
+
+        refresh()
+    </script>
+</html>

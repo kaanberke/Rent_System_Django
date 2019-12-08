@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <style>
+            table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+              text-align: center;
+              margin: auto;
+            }
+            .container{
+                margin: auto;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <table>
+                <tr>
+                    <th>name</th>
+                    <th>category</th>
+                    <th>genre</th>
+                    <th>image url</th>
+                    <th>image</th>
+                </tr>
+            {% for r in images %}
+                <tr>
+                    <td>{{r.name}}</td>
+                    <td>{{r.category}}</td>
+                    <td>
+                        {% for genre in r.genre.all %}
+                            <p> {{ genre }} </p>
+                        {% endfor %}
+                    </td>
+                    <td>{{r.image.url}}</td>
+                    <td><img src="{{ r.image.url }}" width="500px"/></td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </body>
+</html>
