@@ -60,5 +60,122 @@
         }
 
         refresh()
+
+
+
+    {#     POST FETCH      #}
+
+        var accessToken = "";
+        var refreshToken = "";
+        async function postData(url = '', data = {}, headers = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: headers,
+                redirect: 'follow', // manual, *follow, error
+                referrer: 'no-referrer', // no-referrer, *client
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        };
+        async function getData(url = '', headers = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: headers,
+                redirect: 'follow', // manual, *follow, error
+                referrer: 'no-referrer', // no-referrer, *client
+                body: null // body data type must match "Content-Type" header
+            });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        };
+        function refreshToken(accessToken){
+               data = await postData('http://0.0.0.0:8000/api/token/refresh/',
+                                    { refresh: refreshedToken},
+                                    { 'Content-Type': 'application/json',}
+                                    );
+               accessToken = 'Bearer ' + data.access;
+               return accessToken
+        }
+        try {
+              var data = await postData('http://0.0.0.0:8000/api/token/',
+                                        { username:"kaan", password:"0538"},
+                                        { 'Content-Type': 'application/json',
+                                            // 'Content-Type': 'application/x-www-form-urlencoded',
+                                        });
+              accessToken = 'Bearer ' + data.access;
+              refreshedToken = data.refresh;
+              console.log(accessToken);
+              //https://en.wikipedia.org/wiki/List_of_genres
+
+              if (data.code !== "token_not_valid") {
+                  data = await postData('http://0.0.0.0:8000/api/category/',
+                      {name: "Film"},
+                      {
+                          'Content-Type': 'application/json',
+                          'Authorization': accessToken
+                          // 'Content-Type': 'application/x-www-form-urlencoded',
+                      });
+                  data = await postData('http://0.0.0.0:8000/api/genres/',
+                      {name: "Horror"},
+                      {
+                          'Content-Type': 'application/json',
+                          'Authorization': accessToken
+                          // 'Content-Type': 'application/x-www-form-urlencoded',
+                      });
+                  data = await postData('http://0.0.0.0:8000/api/products/',
+                      {
+                          "name": "Paranormal Activity 1",
+                          "category": "Film",
+                          "genre": [
+                              "Horror"
+                          ],
+                          "price": 7.5
+                      },
+                      {
+                          'Content-Type': 'application/json',
+                          'Authorization': accessToken
+                          // 'Content-Type': 'application/x-www-form-urlencoded',
+                      });
+
+                  var image_url = ""
+                  data = getData('http://0.0.0.0:8000/api/products/',
+                      {
+                          'Authorization': accessToken
+                          // 'Content-Type': 'application/x-www-form-urlencoded',
+                      });
+                  data.then(function (response) {
+                      if (response.name === "Paranormal Activity 1") {
+                          image_url = response.url + "image/"
+                      }
+
+                  })
+
+                  data = await postData(image_url,
+                      {
+                          image: img
+                      },
+                      {
+                          'Content-Type': 'application/json',
+                          'Authorization': accessToken
+                          // 'Content-Type': 'application/x-www-form-urlencoded',
+                      });
+              }
+              else{
+                  accessToken = refreshToken(accessToken);
+                  console.log("AccessToken is refreshed. TRY AGAIN!")
+              }
+        } catch (error) {
+              console.error(error);
+        }
+
+    {#    END POST FETCH      #}
+
     </script>
 </html>
