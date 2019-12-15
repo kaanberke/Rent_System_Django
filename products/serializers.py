@@ -31,7 +31,6 @@ class ImageUploadSerializer(serializers.Serializer):
     class Meta:
         fields = '__all__'
 
-
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category

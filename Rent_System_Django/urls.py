@@ -29,7 +29,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('', views.home_page, name='home_page')
+    path('', views.home_page, name='home_page'),
+    path('cart/', views.cart, name='cart'),
+    path('addProduct/', views.addProduct, name='addProduct')
 ]
 
 if settings.DEBUG:

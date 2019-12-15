@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from .models import Product, Category, Genre
 from .serializers import ProductSerializer, CategorySerializer, GenreSerializer, ImageUploadSerializer
 
-
 class ProductView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -20,8 +19,8 @@ class ProductView(viewsets.ModelViewSet):
         try:
             product = Product.objects.get(id=pk)
         except Product.DoesNotExist:
-            return Response({'Error':'Product Not Found'})
-        product.image = request.FILES['image']
+            return Response({'Error': 'Product Not Found'})
+        product.image = request.FILES.get('image')
         product.save()
         return Response(ProductSerializer(product, context={'request': request}).data)
 
@@ -37,6 +36,12 @@ class GenreView(viewsets.ModelViewSet):
 
 def home_page(request):
     return render(request, 'index.html')
+
+def cart(request):
+    return render(request, 'cart.html')
+
+def addProduct(request):
+    return render(request, 'addProduct.html')
 #
 # def list(request):
 #   images = Product.objects.all()
