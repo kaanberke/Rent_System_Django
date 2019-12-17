@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
@@ -37,11 +38,25 @@ class GenreView(viewsets.ModelViewSet):
 def home_page(request):
     return render(request, 'index.html')
 
+
 def cart(request):
     return render(request, 'cart.html')
 
-def addProduct(request):
-    return render(request, 'addProduct.html')
+
+def addproduct(request):
+    return render(request, 'addproduct.html')
+
+
+def films(request):
+    return render(request, 'products.html')
+
+
+def books(request):
+    return render(request, 'products.html')
+
+
+def about(request):
+    return render(request, 'template.html')
 #
 # def list(request):
 #   images = Product.objects.all()
