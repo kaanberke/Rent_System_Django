@@ -1,11 +1,19 @@
-var cart = new Vue({
-    el: '#cart',
+var addproduct = new Vue({
+    el: '#addproduct',
     data: {
         productList: [],
         productList_Search: [],
         cart: [],
-        total: 0,
-        showModal: false,
+        genreList: [],
+        categoryList: [],
+        username: "",
+        password: "",
+        productName: "",
+        productCategory: "Film",
+        productGenre: "Comedy",
+        productISBN: null,
+        productPrice: "",
+        accessToken: "",
         search: "",
     },
     methods: {
@@ -19,7 +27,7 @@ var cart = new Vue({
             )
                 .then(response => response.text())
                 .then((data) => {
-                        this.productList = data
+                    this.productList = data
                 }).then(() => {
                     let temp = JSON.parse(this.productList)
                     for (var i = 0; i < temp.length; i++){
@@ -33,23 +41,101 @@ var cart = new Vue({
                 for (var i = 0; i < sessionStorage.length; i++) {
                     let obj = sessionStorage.getItem(sessionStorage.key(i));
                     if (this.productList.includes(obj))
-                    {
-                        this.cart.push(JSON.parse(obj));
-                        this.total += Number(JSON.parse(obj).price)
-                    }
+                        this.cart.push(JSON.parse(obj))
                 }
+            });
+            fetch('http://0.0.0.0:8000/api/categories/',
+                {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json',},
+                }
+            )
+                .then(response => response.text())
+                .then((data) => {
+                    this.categoryList = JSON.parse(data);
+                });
+
+            fetch('http://0.0.0.0:8000/api/genres/',
+                {
+                    method: 'GET',
+                    headers: {'Content-Type': 'application/json',},
+                }
+            )
+                .then(response => response.text())
+                .then((data) => {
+                    this.genreList = JSON.parse(data);
+                });
+
+        },
+        uploadImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result);
+                    this.postData(
+                        'http://0.0.0.0:8000/api/products/' + input + '/image/',
+                        {
+                            image: e.target.result
+                        },
+                        {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': this.accessToken
+                        }
+                    )
+
+                },
+                    reader.readAsDataURL(input.files[0]);
+            }
+        },
+        addproduct()
+                {
+            fetch('http://0.0.0.0:8000/api/token/',
+                {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json',},
+                    body: JSON.stringify({
+                        username: this.username,
+                        password: this.password,
+                    })
+                    }
+            )
+            .then(response => response.json())
+            .then((data) => {
+                if (data.access == undefined)
+                    return alert('Wrong Username or Password!')
+                else if (
+                    this.productName == "" ||
+                    this.productPrice == ""
+
+                )
+                    return alert('Please fill up the necessary areas!')
+                this.accessToken = 'Bearer ' + data.access;
             })
-        },
-
-        deleteFromStorage(obj) {
-            console.log(typeof obj.id)
-            sessionStorage.removeItem(obj.id);
-            this.cart.splice( this.cart.indexOf(JSON.stringify(obj)), 1 );
-        },
-
-        clearSearch(){
-            $('.search_input').val('');
-            this.search="";
+            .then(()=>{
+            fetch('http://0.0.0.0:8000/api/products/',
+            {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json',
+                               'Authorization': this.accessToken
+                    },
+                    body: JSON.stringify({
+                            name: this.productName,
+                            category: this.productCategory,
+                            genre: [this.productGenre],
+                            ISBN: this.productISBN,
+                            price: this.productPrice,
+                            // image: sessionStorage.getItem('image')
+                    })
+                }
+            ).then(response => response.json())
+                .then((data) => {
+                    $('.alert').css('display', 'block');
+                    $('.btn-btn2').css('margin-bottom', '150%');
+                    this.uploadImage(data.id);
+                })
+            });
 
         }
     },
@@ -66,9 +152,9 @@ var cart = new Vue({
         }
     },
     template:`
-             <div>
+    <div>
              
-    <div class="main">
+    <div class="main" v-on:keypress.enter="addproduct()">
       <section>
             <nav class="navbar navbar-dark bg-dark navbar-expand-lg text-white">
                 <div class="container py-2">
@@ -116,7 +202,7 @@ var cart = new Vue({
                 </div>
                 <div class="d-flex justify-content-center h-100">
                     <div class="searchbar">
-                      <input class="search_input" type="text" v-model="search" @mouseleave="clearSearch" name="" placeholder="Search...">
+                      <input class="search_input" type="text" v-model="search" name="" placeholder="Search...">
                       <a href="#" class="search_icon"><i class="fa fa-search" aria-hidden="true"></i></a>
                     </div>
                   </div>
@@ -131,68 +217,49 @@ var cart = new Vue({
         </section>
       
       <section>
-        <div class="container">
-          <header><h2 class="basketTitle">My Basket</h2>
+        <div class="container" >
+          <header>
+          <h2 class="basketTitle">Add Product</h2>
             <hr class="line-class">
           </header>
-            <div v-if="cart.length == 0">
-                <h1>YOUR CART IS EMPTY, GO ADD THINGS NOW!</h1>
-            </div>
-            <div v-else>
-                      <div class="card lg-8" style="max-width: 1040px; margin: auto; height: 90px; background-color:  rgba(255, 255, 255, 0.75);" v-for="product in cart">
-                          <div class="row">
-        
-                            <div class="col-lg-4 col-md-2 col-sm-5">
-                              <img class="card-img-top card-img"  v-bind:src=product.image alt="..." style="width:auto;height: 100px;margin-left: 40px; padding-top: 10px; padding-bottom: 20px;">
-                            </div>
-        
-             
-                        <div class="col-lg-3 col-md-2 col-sm-1" >
-                      <div class="card-body">
-                          <h5 class="card-text" style="margin-left:-120px; padding-bottom:-150px;">{{product.name}}</h5>
-                        </div>
-                      </div>
-                        <div class="col-lg-2 col-md-2 col-sm-1" >
-                          <div class="card-body">
-                              <h5 class="card-text" style="margin-left:-120px; padding-bottom:-150px;">{{product.category}}</h5>
-                            </div>
-                          </div>
-                        <div class="col-lg-1 col-md-2 col-sm-2" >
-                           <p class="card-price" style="margin-left:20px; padding-top:30px;">{{product.price}}</p>
-                           
-                           </div>
-                        <div class="col-lg-1 col-md-2 col-sm-1">
-                          <div class="btn-class" style="padding: 30px; margin-right: 20px;">
-                          <button type="delete" class="btn btn-danger" v-on:click="deleteFromStorage(product)">Delete</button>
-                        </div>
-                      </div>
-                    </div>
-                    </div>
-            
-        
-        <div class="btn-btn2" style="margin-left: 75%; margin-top: 50px; padding: 2% 2% 2% 7%; background: rgba(255, 255, 255, 0.5); border-radius: 20px">
-            <p>Cost: $ {{total}}</p>
-            <p>Tax: Free</p>
-            <div v-if="total > 75">
-                <p>Shipping: $ 0</p>
-                <hr style="color: black">
-                <p><strong>Total: $ {{total}}</strong></p>
-            </div>
-            <div v-else>
-                <p>Shipping: $ 7.5</p>
-                <hr style="width: 125%; margin-right: auto; margin-left: -50px; border: 3px solid black; border-radius: 10px">
-                <p><strong>Total: $ {{total+7.5}}</strong></p>
-            </div>            
-            <button id="show-modal" @click="showModal = true" type="buy" class="btn btn-primary" style="width: 75%;">BUY</button>
-        </div>
-    </div>
-  </div>
+          
+          <div class="alert" style="text-align: center; display:none">
+              <span class="closebtn" onclick="this.parentElement.style.display='none';                    
+                                              $('.btn-btn2').css('margin-bottom', '0%');">&times;</span> 
+              <strong>Successfully</strong>  added the product!
+          </div>
 
+              <img id="blah" src="http://placehold.it/180" alt="your image" style="display:none;position:absolute;"/>
+              <div style="margin: auto; margin-left: 35%; width: 15%">
+                Username:   <input type="text" v-model="username" placeholder="John Doe" style="margin-bottom: 10%;padding: 2%;width: 200%">
+                Password:   <input type="password" v-model="password" placeholder="1234567" style="margin-bottom: 10%;padding: 2%;width: 200%"><br>
+                Product Name:       <input type="text" v-model="productName" placeholder="'Rick and Morty'" style="margin-bottom: 10%;padding: 5%;width: 200%;"><br>
+                Product Category:   <select name="categories" v-model="productCategory" style="margin-bottom: 10%;padding: 5%;width: 200%; font-size: 150%">
+                                        <option v-for="category in categoryList" v-bind:value="category.name">{{category.name}}</option>
+                                      </select><br>
+                
+                
+                Product Genre:        <select name="genres"  v-model="productGenre" style="margin-bottom: 10%;padding: 5%;width: 200%; font-size: 150%">
+                                        <option v-for="genre in genreList" v-bind:value="genre.name">{{genre.name}}</option>
+                                      </select>
+                
+                <div v-if="productCategory == 'Book'">
+                    Book ISBN:          <input type="text" v-model="productISBN" placeholder="ISBN" style="margin-bottom: 10%;padding: 5%;width: 200%;"><br>
+                </div>
+                
+                Price:              <input type="text" v-model="productPrice" placeholder="$9.00" style="margin-bottom: 10%;padding: 5%;width: 200%;"><br>
+                <input type='file' onchange="fileChosen(this)" accept="image/x-png,image/gif,image/jpeg" />
+                <button type="buy" v-on:click="addproduct()"  class="btn-btn2 btn btn-success" 
+                    style="width: 125%; margin-left: 40%;margin-top: 10%; margin-bottom: 0%">Add Product</button>
+              </div>
+
+        </div>
 </section>
+ 
 </div>
 
-<<section>
-    <footer class="bg-dark py-5">
+<section>
+    <footer class="bg-dark py-5" style="position: fixed; left: 0; bottom: 0;">
         <div class="container text-white">
         <div class="row">
           <div class="col-lg-6">
@@ -201,7 +268,7 @@ var cart = new Vue({
           <div class="col-lg-6">
                <i class="fa fa-twitter fa-3x mx-3" aria-hidden="true"></i>
                <i class="fa fa-facebook fa-3x mx-3" aria-hidden="true"></i>
-               <i class="fa fa-instagram fa-3x mx-3" aria-hidden="true"></i>
+               <a href="https://www.instagram.com"><i class="fa fa-instagram fa-3x mx-3" aria-hidden="true"></i></a>
                <i class="fa fa-cc-visa fa-3x mx-3" aria-hidden="true"></i>
                <i class="fa fa-cc-paypal fa-3x mx-3" aria-hidden="true"></i>
                <i class="fa fa-cc-mastercard fa-3x mx-3" aria-hidden="true"></i>
@@ -213,16 +280,9 @@ var cart = new Vue({
 
     </footer>
 </section>
-
     
-  <modal class="modal" v-if="showModal" @close="showModal = false">
-    <!--
-      you can use custom content here to overwrite
-      default content
-    -->
-    <h3 slot="header">Payment Session</h3>
-  </modal>   
-             </div>
+             
+ </div>
              
              
              
@@ -230,42 +290,17 @@ var cart = new Vue({
              `
 });
 
-Vue.component('modal', {
-    template: `<transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
+function fileChosen(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
 
-          <div class="modal-header">
-            <slot name="header">
-              default header
-            </slot>
-          </div>
-
-          <div class="modal-body">
-            <slot name="body">
-            \t\tFullname<br>
-                <input type="text"><br>
-                Phone<br>
-                <input type="text"><br>
-                Adress<br>
-                <textarea name="address" form="usrform">Enter address...</textarea>
-                Credit Card Number<br>
-                <input type="text"><br>               
-                CVC<br>
-                <input type="text"><br>
-            </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              <button class="btn btn-success" @click="$emit('close')" style="font-size: 16px;padding-left: 45px; padding-right: 45px">
-                Pay
-              </button>
-            </slot>
-          </div>
-        </div>
-      </div>
-    </div>
-  </transition>`
-})
+        reader.onload = function (e) {
+            sessionStorage.setItem('image', e.target.result);
+            $('#blah')
+                .attr('src', e.target.result);
+            $('#blah').css('display', 'block');
+            $('#blah').css('width', '180px');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
