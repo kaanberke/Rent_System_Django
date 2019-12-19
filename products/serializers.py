@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Genre, Category
+from .models import Product, Genre, Category, RentedProducts, Tickets
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -12,6 +12,8 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id',
                   'url',
                   'name',
+                  'summary',
+                  'creator',
                   'category',
                   'genre',
                   'ISBN',
@@ -31,12 +33,26 @@ class ImageUploadSerializer(serializers.Serializer):
     class Meta:
         fields = '__all__'
 
+
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'url', 'name')
+        fields = '__all__'
+
 
 class GenreSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Genre
-        fields = ('id', 'url', 'name')
+        fields = '__all__'
+
+
+class RentedProductsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = RentedProducts
+        fields = '__all__'
+
+
+class TicketsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Tickets
+        fields = '__all__'

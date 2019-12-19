@@ -1,63 +1,65 @@
-.nav-link{
-    border-radius: 25px;
-    font-size: 18px;
-
-}
-.nav-link:hover{
-    background-color: orange;
-    transition-duration: 0.5s;
-    fill: orange;
+.navbar{
+  text-align: center;
 }
 
-  .searchbar{
-    margin-bottom: auto;
-    margin-top: auto;
-    height: 40px;
-    background-color:orange;
-    border-radius: 30px;
-    padding: 5px;
-    }
-  
-    .search_input{
-    color:#363636;
-    border: 0;
-    outline: 0;
-    background: none;
-    width: 0;
-    caret-color:transparent;
-    line-height: 40px;
-    transition: width 0.8s linear;
-    }
-  
-    .searchbar:hover > .search_input{
-    padding: 0 10px;
-    width: 250px;
-    caret-color:red;
-    transition: width 0.4s linear;
-    }
-  
-    .searchbar:hover > .search_icon{
-    background: white;
-    color: #e74c3c;
-  
-    }
-  
-    .search_icon{
-    height: 40px;
-    width: 40px;
-    float: right;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    color:white;
-    text-decoration:none;
-    position: sticky;
-    margin-top:-5px;
-    position: -ms-page;
-    }
-    
-    .footer {
-        grid-row-start: 2;
-        grid-row-end: 3;
-      }
+.nav-link {
+  border-radius: 25px;
+  font-size: 18px;
+}
+.nav-link:hover {
+  background-color: orange;
+  transition-duration: 0.5s;
+  fill: orange;
+}
+
+.searchbar {
+  margin-bottom: auto;
+  margin-top: auto;
+  height: 40px;
+  background-color: orange;
+  border-radius: 30px;
+  padding: 5px;
+}
+
+.search_input {
+  color: #363636;
+  border: 0;
+  outline: 0;
+  background: none;
+  width: 0;
+  caret-color: transparent;
+  line-height: 40px;
+  transition: width 0.8s linear;
+}
+
+.searchbar:hover > .search_input {
+  padding: 0 10px;
+  width: 250px;
+  caret-color: red;
+  transition: width 0.4s linear;
+}
+
+.searchbar:hover > .search_icon {
+  background: white;
+  color: #e74c3c;
+}
+
+.search_icon {
+  height: 40px;
+  width: 40px;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  position: sticky;
+  margin-top: -5px;
+  position: -ms-page;
+}
+
+.footer {
+  grid-row-start: 2;
+  grid-row-end: 3;
+}

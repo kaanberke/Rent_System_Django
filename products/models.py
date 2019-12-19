@@ -28,6 +28,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
     creator = models.CharField(max_length=75, default=None, null=True)
+    summary = models.TextField(max_length=200, default= None, null=True)
     ISBN = models.CharField(max_length=75, null=True)
     price = models.FloatField(null=True)
     image = models.ImageField(
@@ -47,3 +48,24 @@ class RentedProducts(models.Model):
 
     def __str__(self):
         return self.product.name
+
+
+class Tickets(models.Model):
+    fullname = models.CharField(max_length=75)
+    phone = models.CharField(max_length=75)
+    email = models.CharField(max_length=75)
+    subject = models.CharField(max_length=75)
+    information = models.TextField(max_length=200)
+
+    def __str__(self):
+        return self.subject + " recorded by " + self.fullname
+
+class deneme(models.Model):
+    fullname = models.CharField(max_length=75)
+    phone = models.CharField(max_length=75)
+    email = models.CharField(max_length=75)
+    subject = models.CharField(max_length=75)
+    information = models.TextField(max_length=200)
+
+    def __str__(self):
+        return self.subject + " recorded by " + self.fullname

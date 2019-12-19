@@ -5,8 +5,13 @@ from rest_framework.decorators import action
 from rest_framework.parsers import FileUploadParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 
-from .models import Product, Category, Genre
-from .serializers import ProductSerializer, CategorySerializer, GenreSerializer, ImageUploadSerializer
+from .models import Product, Category, Genre, RentedProducts, Tickets
+from .serializers import ProductSerializer, \
+    CategorySerializer, \
+    GenreSerializer, \
+    ImageUploadSerializer, \
+    RentedProductsSerializer, \
+    TicketsSerializer
 
 class ProductView(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -25,6 +30,7 @@ class ProductView(viewsets.ModelViewSet):
         product.save()
         return Response(ProductSerializer(product, context={'request': request}).data)
 
+
 class CategoryView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -33,6 +39,16 @@ class CategoryView(viewsets.ModelViewSet):
 class GenreView(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+
+
+class RentedProductsView(viewsets.ModelViewSet):
+    queryset = RentedProducts.objects.all()
+    serializer_class = RentedProductsSerializer
+
+
+class TicketsView(viewsets.ModelViewSet):
+    queryset = Tickets.objects.all()
+    serializer_class = TicketsSerializer
 
 
 def home_page(request):
@@ -56,7 +72,11 @@ def books(request):
 
 
 def about(request):
-    return render(request, 'template.html')
+    return render(request, 'about.html')
+
+
+def productdetail(request, num=1):
+    return render(request, 'productdetail.html')
 #
 # def list(request):
 #   images = Product.objects.all()

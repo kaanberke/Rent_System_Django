@@ -31,7 +31,13 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('', views.home_page, name='home_page'),
     path('cart/', views.cart, name='cart'),
-    path('addProduct/', views.addProduct, name='addProduct')
+    path('addproduct/', views.addproduct, name='addproduct'),
+    path('films/', views.films, name='films'),
+    path('books/', views.books, name='books'),
+    path('about/', views.about, name='about'),
+    path('productdetail/', views.productdetail, name='productdetail'),
+    path('films/<int:num>/', views.productdetail, name='productdetail'),
+    path('books/<int:num>/', views.productdetail, name='productdetail'),
 ]
 
 if settings.DEBUG:

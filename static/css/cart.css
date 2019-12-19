@@ -1,104 +1,107 @@
-body{
-     /* background-image: url("https://c4.wallpaperflare.com/wallpaper/880/809/161/water-grass-minimalism-wallpaper-preview.jpg");*/
-     background-image: url("https://d39l2hkdp2esp1.cloudfront.net/img/photo/184636/184636_00_2x.jpg");
-     /*background-image: url("https://c4.wallpaperflare.com/wallpaper/284/713/172/background-macro-minimalistic-nature-wallpaper-preview.jpg");*/
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-     /* background-color: white;*/
-  }
+body {
+    /* background-image: url("https://c4.wallpaperflare.com/wallpaper/880/809/161/water-grass-minimalism-wallpaper-preview.jpg");*/
+    background-image: url("https://d39l2hkdp2esp1.cloudfront.net/img/photo/184636/184636_00_2x.jpg");
+    /*background-image: url("https://c4.wallpaperflare.com/wallpaper/284/713/172/background-macro-minimalistic-nature-wallpaper-preview.jpg");*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* background-color: white;*/
+}
 
+.navbar{
+  text-align: center;
+}
 
 .navbar .dropbtn {
-  
-    background-color:transparent;
+
+    background-color: transparent;
     padding: 5px;
     font-size: 16px;
     border: none;
     cursor: pointer;
     color: whitesmoke;
-    font-family:Verdana, Geneva, Tahoma, sans-serif, Helvetica, sans-serif;
+    font-family: Verdana, Geneva, Tahoma, sans-serif, Helvetica, sans-serif;
     margin-left: 75px;
-    
-   
-  }
-  .navbar .dropbtn:hover{
+
+
+}
+.navbar .dropbtn:hover {
     background-color: orange;
-  }
-  
-  
-  .navbar .dropdown {
+}
+
+
+.navbar .dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  
-  .navbar .dropdown-content {
+}
+
+
+.navbar .dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
     min-width: 130px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
-  }
-  
-  .navbar .dropdown-content a {
-    color:black;
+}
+
+.navbar .dropdown-content a {
+    color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     text-align: center;
-  }
-  
-  
-  .navbar .dropdown-content a:hover {
+}
+
+
+.navbar .dropdown-content a:hover {
     background-color: tomato;
     opacity: 0.5;
-  }
-  
-  
-  .navbar .dropdown:hover .dropdown-content {
+}
+
+
+.navbar .dropdown:hover .dropdown-content {
     display: block;
-  }
-  
-  
-  .navbar .dropdown .dropbtn :hover{
+}
+
+
+.navbar .dropdown .dropbtn:hover {
     background-color: tomato;
-  }
-  .searchbar{
+}
+.searchbar {
     margin-bottom: auto;
     margin-top: auto;
     height: 40px;
-    background-color:orange;
+    background-color: orange;
     border-radius: 30px;
     padding: 5px;
-    }
+}
 
-    .search_input{
-    color:#363636;
+.search_input {
+    color: #363636;
     border: 0;
     outline: 0;
     background: none;
     width: 0;
-    caret-color:transparent;
+    caret-color: transparent;
     line-height: 40px;
     transition: width 0.1s linear;
-    }
+}
 
-    .searchbar:hover > .search_input{
+.searchbar:hover > .search_input {
     padding: 0 10px;
     width: 250px;
-    caret-color:red;
+    caret-color: red;
     transition: width 0.2s linear;
-    }
+}
 
-    .searchbar:hover > .search_icon{
+.searchbar:hover > .search_icon {
     background: white;
     color: #e74c3c;
 
-    }
-  
-    .search_icon{
+}
+
+.search_icon {
     height: 40px;
     width: 40px;
     float: right;
@@ -106,16 +109,15 @@ body{
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    color:white;
-    text-decoration:none;
+    color: white;
+    text-decoration: none;
     position: sticky;
-    margin-top:-5px;
+    margin-top: -5px;
     position: -ms-page;
-    }
-    
+}
 
 
-.basketTitle{
+.basketTitle {
     text-align: center;
     font-family: Arial;
     font-size: 28px;
@@ -123,112 +125,109 @@ body{
     color: teal;
 }
 
-hr.line-class{
+hr.line-class {
     border: 2px solid #363636;
     opacity: 0.5;
 }
-.btn-btn2 p{
-  font-family: Arial;
-  font-size: 22px;
-  margin-top: 10px;
-  margin-bottom:20px;
-  margin-left:-40px;
-  color:black;
+.btn-btn2 p {
+    font-family: Arial;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: -40px;
+    color: black;
 
 }
 
-footer{
+footer {
     position: absolute;
-    bottom: 0%;
+    bottom: 0;
     width: 100%;
     height: 15%;
-  }
+}
 
 .modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .7);
-  display: table;
-  transition: opacity .6s ease;
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: table;
+    transition: opacity 0.6s ease;
 
 }
 
 .modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 1);
-  transition: all .3s ease;
-  font-family: Helvetica;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 1);
+    transition: all 0.3s ease;
+    font-family: Helvetica;
 }
 
 .modal-header h3 {
-  margin-top: 0;
-  color: #1e1d41;
+    margin-top: 0;
+    color: #1e1d41;
 }
 
-.modal{
+.modal {
     text-align: center;
 }
 
 
-#show-modal{
-}
+#show-modal {}
 
 
-.modal-body {
-}
+.modal-body {}
 
 .modal-default-button {
-  float: right;
+    float: right;
 }
 
 
-
-.modal-body > input, textarea{
-  margin-bottom: 15px;
-  width: 100%;
-  max-width: 150%;
-  max-height: 150px;
-  color: teal;
-  font-size: 20px;
+.modal-body > input,
+textarea {
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 150%;
+    max-height: 150px;
+    color: teal;
+    font-size: 20px;
 }
 
 
 /*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
+* The following styles are auto-applied to elements with
+* transition="modal" when their visibility is toggled
+* by Vue.js.
+*
+* You can easily play with the modal transition by editing
+* these styles.
+*/
 
 .modal-enter {
-  opacity: 0;
+    opacity: 0;
 }
 
 .modal-leave-active {
-  opacity: 0;
+    opacity: 0;
 }
 
-.modal-container{
+.modal-container {
     width: 25%;
 }
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
 
 }
-
